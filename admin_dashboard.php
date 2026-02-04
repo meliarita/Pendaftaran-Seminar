@@ -15,7 +15,7 @@ include 'layout/header.php';
     <div class="container">
         <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-lock-fill me-2"></i>ADMIN PANEL</a>
         <div class="navbar-nav ms-auto">
-            <a class="nav-link text-danger fw-bold" href="auth/logout_admin.php">Logout</a>
+            <a class="nav-link text-danger fw-bold" href="auth/logout.php">Logout</a>
         </div>
     </div>
 </nav>

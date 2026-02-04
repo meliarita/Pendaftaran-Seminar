@@ -33,7 +33,7 @@ if (isset($_POST['reset_password'])) {
         echo "<script>alert('Username atau Jawaban Keamanan salah! Silakan coba lagi.'); window.history.back();</script>";
     }
 } else {
-    header("Location: ../lupa_password.php");
+    header("Location: ../prose_lupa_password.php");
     exit;
 }
 ?>

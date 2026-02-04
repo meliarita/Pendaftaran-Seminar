@@ -2,7 +2,6 @@
 session_start();
 include 'config/db.php';
 
-// Proteksi: Jika belum login, tendang ke halaman login
 if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit;
@@ -33,7 +32,6 @@ include 'layout/header.php';
 
     <div class="row">
         <?php
-        // Ambil data event dari database
         $query = mysqli_query($conn, "SELECT * FROM events ORDER BY tanggal ASC");
         
         if (mysqli_num_rows($query) == 0) {
@@ -42,19 +40,33 @@ include 'layout/header.php';
 
         while ($event = mysqli_fetch_assoc($query)) :
         ?>
-        <div class="card-footer bg-white border-0 pb-3">
-            <?php if ($event['kuota'] > 0) : ?>
-                <form action="auth/proses_daftar_event.php" method="POST">
-                    <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
-                    <button type="submit" name="daftar" class="btn btn-primary w-100 rounded-pill shadow-sm">
-                        Daftar Sekarang
-                    </button>
-                </form>
-            <?php else : ?>
-                <button class="btn btn-danger w-100 rounded-pill shadow-sm" disabled>
-                    <i class="bi bi-x-circle me-1"></i> Kuota Penuh
-                </button>
-            <?php endif; ?>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body">
+                    <span class="badge bg-info-subtle text-info mb-2">Seminar</span>
+                    <h5 class="fw-bold mb-1"><?php echo $event['nama_event']; ?></h5>
+                    <p class="text-muted small mb-3">
+                        <i class="bi bi-calendar-event me-1"></i> <?php echo $event['tanggal']; ?> <br>
+                    </p>
+                    <p class="small text-secondary">Sisa Kuota: <strong><?php echo $event['kuota']; ?></strong></p>
+                </div>
+                
+                <div class="card-footer bg-white border-0 pb-3">
+                    <?php if ($event['kuota'] > 0) : ?>
+                        <form action="auth/proses_daftar_event.php" method="POST">
+                            <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                            <button type="submit" name="daftar" class="btn btn-primary w-100 rounded-pill shadow-sm">
+                                Daftar Sekarang
+                            </button>
+                        </form>
+                    <?php else : ?>
+                        <button class="btn btn-danger w-100 rounded-pill shadow-sm" disabled>
+                            <i class="bi bi-x-circle me-1"></i> Kuota Penuh
+                        </button>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
         <?php endwhile; ?>
     </div>
